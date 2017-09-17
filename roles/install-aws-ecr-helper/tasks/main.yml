@@ -1,0 +1,39 @@
+---
+- name: install make
+  apt:
+    name: make
+    state: present
+
+- name: git clone aws-ecr-credential-helper
+  git:
+    repo: 'https://github.com/awslabs/amazon-ecr-credential-helper.git'
+    dest: /tmp/amazon-ecr-credential-helper
+    clone: yes
+
+- name: build & install aws-ecr-credential-helper
+  shell: |
+    cd /tmp/amazon-ecr-credential-helper
+    make docker
+    cp /tmp/amazon-ecr-credential-helper/bin/local/docker-credential-ecr-login /usr/local/bin
+
+- name: creates .docker directory
+  file:
+    path: '/home/ubuntu/.docker'
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+
+- name: copy config.json file
+  template:
+    src: config.json
+    dest: '/home/ubuntu/.docker/config.json'
+    owner: ubuntu
+    group: ubuntu
+
+- name: remove aws-ecr-credential-helper
+  file:
+    state: absent
+    path: /tmp/amazon-ecr-credential-helper
+
+- name: remove docker images
+  command: 'docker image prune -a -f'

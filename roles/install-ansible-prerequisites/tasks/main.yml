@@ -1,0 +1,10 @@
+---
+- name: apt-update
+  raw: apt -y update
+
+- name: Install python2.7
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+# gather 'facts', i.e. compensates for 'gather_facts: false' in calling playbook.
+- name: gather facts
+  setup:

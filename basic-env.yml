@@ -1,0 +1,19 @@
+# How to use:
+# ansible-playbook -u <user-name> --key-file '<key-file>' -i '<host-ip>,' basic-env.yml
+#
+# Ex: ansible-playbook -u ubuntu --key-file '/home/david74/david74-aws.pem' -i '13.115.245.247,' basic-env.yml
+---
+- hosts: all
+  gather_facts: no # required in case Python is not available on the host
+  become: yes
+  become_user: root
+  pre_tasks:
+    - include_role:
+        name: install-ansible-prerequisites
+  roles:
+    - install-docker-ce
+    - install-pip
+    - install-awscli
+    - install-docker-py
+    - install-ntp
+    - install-aws-ecr-helper
