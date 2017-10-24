@@ -1,0 +1,5 @@
+---
+- name: Disable auto upgrade
+  template:
+    src: 20auto-upgrades
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
