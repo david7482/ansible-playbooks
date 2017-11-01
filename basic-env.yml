@@ -17,4 +17,5 @@
     - install-docker-py
     - install-ntp
     - install-aws-ecr-helper
+    - install-ssh-key
     - disable-auto-upgrade

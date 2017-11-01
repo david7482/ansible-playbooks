@@ -18,17 +18,17 @@
 
 - name: creates .docker directory
   file:
-    path: '/home/ubuntu/.docker'
+    path: '/home/{{ ansible_ssh_user }}/.docker'
     state: directory
-    owner: ubuntu
-    group: ubuntu
+    owner: '{{ ansible_ssh_user }}'
+    group: '{{ ansible_ssh_user }}'
 
 - name: copy config.json file
   template:
     src: config.json
-    dest: '/home/ubuntu/.docker/config.json'
-    owner: ubuntu
-    group: ubuntu
+    dest: '/home/{{ ansible_ssh_user }}/.docker/config.json'
+    owner: '{{ ansible_ssh_user }}'
+    group: '{{ ansible_ssh_user }}'
 
 - name: remove aws-ecr-credential-helper
   file:
