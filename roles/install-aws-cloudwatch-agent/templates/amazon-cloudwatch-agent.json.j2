@@ -10,7 +10,8 @@
     "metrics_collected": {
       "cpu":{
         "measurement":[
-          "cpu_usage_guest"
+          "cpu_usage_system",
+          "cpu_usage_user"
         ],
         "append_dimensions": {
 		  "environment": "{{ ec2_tags.tags.Environment }}",
