@@ -1,0 +1,14 @@
+---
+- name: get instance ec2 facts
+  action: ec2_facts
+  register: ec2_facts
+
+- name: get ec2 tags for this instance
+  ec2_tag:
+    region: "{{ ansible_ec2_placement_region }}"
+    resource: "{{ ansible_ec2_instance_id }}"
+    state: list
+  register: ec2_tags
+
+- name: set hostname to match EC2 Name
+  hostname: name={{ ec2_tags.tags.Name }}

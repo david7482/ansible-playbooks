@@ -18,4 +18,5 @@
     - install-ntp
     - install-aws-ecr-helper
     - install-ssh-key
+    - update-hostname-with-ec2-tag
     - disable-auto-upgrade
