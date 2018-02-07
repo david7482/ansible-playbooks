@@ -19,4 +19,5 @@
     - install-aws-ecr-helper
     - install-ssh-key
     - update-hostname-with-ec2-tag
+    - install-aws-cloudwatch-agent
     - disable-auto-upgrade

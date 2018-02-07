@@ -1,0 +1,48 @@
+---
+- name: get instance ec2 facts
+  action: ec2_facts
+  register: ec2_facts
+
+- name: get ec2 tags for this instance
+  ec2_tag:
+    region: "{{ ansible_ec2_placement_region }}"
+    resource: "{{ ansible_ec2_instance_id }}"
+    state: list
+  register: ec2_tags
+
+- name: create aws cloudwatch agent directory
+  file:
+    path: /tmp/AmazonCloudWatchAgent
+    state: directory
+
+- name: install unzip
+  apt:
+    name: unzip
+    state: latest
+
+- name: unarchive aws cloudwatch agent
+  unarchive:
+    src: https://s3.amazonaws.com/amazoncloudwatch-agent/linux/amd64/latest/AmazonCloudWatchAgent.zip
+    dest: /tmp/AmazonCloudWatchAgent
+    remote_src: yes
+
+- name: install aws cloudwatch agent
+  command: ./install.sh
+  args:
+    chdir: /tmp/AmazonCloudWatchAgent
+
+- set_fact:
+    aws_cloudwatch_config_path: "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json"
+
+- name: copy the cloudwatch agent config template file
+  template:
+    src: amazon-cloudwatch-agent.json.j2
+    dest: "{{ aws_cloudwatch_config_path }}"
+
+- name: run cloudwatch agent
+  command: "/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:{{ aws_cloudwatch_config_path }} -s"
+
+- name: remove aws cloudwatch agent directory
+  file:
+    state: absent
+    path: /tmp/AmazonCloudWatchAgent

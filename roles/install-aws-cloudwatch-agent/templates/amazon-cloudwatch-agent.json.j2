@@ -1,0 +1,55 @@
+{
+  "agent": {
+    "metrics_collection_interval": 60
+  },
+  "metrics": {
+    "namespace": "umbocv/{{ ec2_tags.tags.Purpose }}",
+    "append_dimensions": {
+	  "InstanceId": "${aws:InstanceId}"
+    },
+    "metrics_collected": {
+      "cpu":{
+        "measurement":[
+          "cpu_usage_guest"
+        ],
+        "totalcpu":false,
+        "append_dimensions": {
+		  "environment": "{{ ec2_tags.tags.Environment }}",
+		  "hostname": "{{ ec2_tags.tags.Name }}"
+		}
+      },
+      "mem": {
+        "measurement": [
+          "mem_used_percent"
+        ],
+        "append_dimensions": {
+		  "environment": "{{ ec2_tags.tags.Environment }}",
+		  "hostname": "{{ ec2_tags.tags.Name }}"
+        }
+      },
+      "disk": {
+        "resources":[
+          "/"
+        ],
+        "measurement": [
+          "disk_used_percent"
+        ],
+        "append_dimensions": {
+		  "environment": "{{ ec2_tags.tags.Environment }}",
+		  "hostname": "{{ ec2_tags.tags.Name }}"
+        }
+      },
+      "net": {
+		"measurement": [
+		  "net_bytes_sent",
+		  "net_bytes_recv"
+		],
+		"append_dimensions": {
+		  "environment": "{{ ec2_tags.tags.Environment }}",
+		  "hostname": "{{ ec2_tags.tags.Name }}"
+		}
+	  }
+    },
+    "aggregation_dimensions" : [["environment"], ["environment", "hostname", "InstanceId"]]
+  }
+}
