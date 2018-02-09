@@ -3,21 +3,18 @@
 #
 # Ex: ansible-playbook -u ubuntu --key-file '/home/david74/david74-aws.pem' -i '13.115.245.247,' basic-env.yml
 ---
-- hosts: all
-  gather_facts: no # required in case Python is not available on the host
+- hosts: "tag_Purpose_{{ PURPOSE }}:&tag_Environment_{{ ENV }}"
+  remote_user: ubuntu
   become: yes
   become_user: root
-  pre_tasks:
-    - include_role:
-        name: install-ansible-prerequisites
   roles:
-    - install-docker-ce
-    - install-pip
-    - install-awscli
-    - install-docker-py
-    - install-ntp
-    - install-aws-ecr-helper
-    - install-ssh-key
-    - update-hostname-with-ec2-tag
-    - install-aws-cloudwatch-agent
-    - disable-auto-upgrade
+#    - install-docker-ce
+#    - install-pip
+#    - install-awscli
+#    - install-docker-py
+#    - install-ntp
+#    - install-aws-ecr-helper
+#    - install-ssh-key
+#    - update-hostname-with-ec2-tag
+#    - install-aws-cloudwatch-agent
+#    - disable-auto-upgrade
