@@ -1,0 +1,19 @@
+# How to use:
+# ansible-playbook -i /etc/ansible/ec2.py  \
+#     -u <user-name> \
+#     --key-file '<key-file>' \
+#     --extra-vars 'PURPOSE=<purpose> ENV=<env>' \
+#     -e 'SSH_KEY="<id_rsa.pub>"' \
+#     install-ssh-key.yml
+#
+# Ex: ansible-playbook -i /etc/ansible/ec2.py \
+#         -u ubuntu --key-file ~/loki.pem \
+#         --extra-vars "PURPOSE=rs ENV=production" \
+#         -e 'SSH_KEY="<id_rsa.pub>"' install-ssh-key.yml
+---
+- hosts: "tag_Purpose_{{ PURPOSE }}:&tag_Environment_{{ ENV }}"
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  roles:
+    - install-ssh-key

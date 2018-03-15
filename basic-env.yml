@@ -8,13 +8,13 @@
   become: yes
   become_user: root
   roles:
-#    - install-docker-ce
-#    - install-pip
-#    - install-awscli
-#    - install-docker-py
-#    - install-ntp
-#    - install-aws-ecr-helper
-#    - install-ssh-key
-#    - update-hostname-with-ec2-tag
-#    - install-aws-cloudwatch-agent
-#    - disable-auto-upgrade
+    - install-docker-ce
+    - install-pip
+    - install-awscli
+    - install-docker-py
+    - install-ntp
+    - install-aws-ecr-helper
+    - install-ssh-key
+    - update-hostname-with-ec2-tag
+    - install-aws-cloudwatch-agent
+    - disable-auto-upgrade
