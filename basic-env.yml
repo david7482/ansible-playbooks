@@ -1,12 +1,15 @@
 # How to use:
-# ansible-playbook -u <user-name> --key-file '<key-file>' -i '<host-ip>,' basic-env.yml
+# ansible-playbook -u <user-name> --key-file '<key-file>' -i '<host-ip>,' -e 'SSH_KEY="<ssh-key>"' basic-env.yml
 #
-# Ex: ansible-playbook -u ubuntu --key-file '/home/david74/david74-aws.pem' -i '13.115.245.247,' basic-env.yml
+# Ex: ansible-playbook -u ubuntu --key-file '/home/david74/david74-aws.pem' -i '13.115.245.247,' -e 'SSH_KEY="<ssh-key>"' basic-env.yml
 ---
-- hosts: "tag_Purpose_{{ PURPOSE }}:&tag_Environment_{{ ENV }}"
-  remote_user: ubuntu
+- hosts: all
+  gather_facts: no # required in case Python is not available on the host
   become: yes
   become_user: root
+  pre_tasks:
+    - include_role:
+        name: install-ansible-prerequisites
   roles:
     - install-docker-ce
     - install-pip
